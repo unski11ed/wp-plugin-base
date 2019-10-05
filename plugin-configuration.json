@@ -1,0 +1,8 @@
+{
+    "namespace": "WpTodo",
+    "name": "WpTodo",
+    "executableName": "wp-todo",
+    "description": "Example ToDo application",
+    "version": "1.0.0",
+    "author": "John Doe"
+}
