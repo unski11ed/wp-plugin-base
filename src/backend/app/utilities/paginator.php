@@ -1,4 +1,7 @@
 <?php
+
+namespace __PluginNamespace__\Utilities;
+
 function show_paginator(){
     global $VIEWBAG;
     
@@ -6,13 +9,12 @@ function show_paginator(){
     $maxPage = $VIEWBAG['_maxPage'];
     $urlBase = $VIEWBAG['_urlBase'];
     
-    //TODO: spawn paginator
     $prevPage = $page - 1;
     $nextPage = $page + 1;
     
     echo "<div class='ksk-paginator'>";
     if($page > 1){
-        //echo "<a href='$urlBase&p=1'><<</a>";
+        echo "<a href='$urlBase&p=1'><<</a>";
         echo "<a href='$urlBase&p={$prevPage}'><</a>";
     }
     for($i = 1; $i <= $maxPage; $i++){
@@ -20,8 +22,7 @@ function show_paginator(){
     }
     if($page < $maxPage){
         echo "<a href='$urlBase&p={$nextPage}'>></a>";
-        //echo "<a href='$urlBase&p={$maxPage}'>>></a>";
+        echo "<a href='$urlBase&p={$maxPage}'>>></a>";
     }
     echo "</div>";
 }
-?>

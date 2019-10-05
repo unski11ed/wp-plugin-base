@@ -5,6 +5,7 @@ namespace __PluginNamespace__\Base;
 
 includePhpFiles(plugin_dir_path(__FILE__)."/../base");
 includePhpFiles(plugin_dir_path(__FILE__)."/model");
+includePhpFiles(plugin_dir_path(__FILE__)."/utilities");
 includePhpFiles(plugin_dir_path(__FILE__)."/controller");
 includePhpFiles(plugin_dir_path(__FILE__)."/shortcode");
 
@@ -18,7 +19,7 @@ class PluginMVCMenuPages {
     }
     
     public function insert_page($page_name, $controller, $action, $menu_name = "", $params = "") {
-        $slug = $this->slugPrefix . $this->normalizeString($page_name);
+        $slug = $this->slugPrefix . remove_accents($page_name);
         
         add_menu_page(
                 $page_name, 
@@ -37,7 +38,7 @@ class PluginMVCMenuPages {
     }
     
     public function insert_sub_page($parent_slug, $sub_page_name, $controller, $action, $params = "") {
-        $slug = $this->slugPrefix . $this->normalizeString($sub_page_name);
+        $slug = $this->slugPrefix . remove_accents($sub_page_name);
         
         add_submenu_page( 
                 $parent_slug, 

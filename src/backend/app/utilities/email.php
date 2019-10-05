@@ -1,4 +1,7 @@
 <?php
+
+namespace __PluginNamespace__\Utilities;
+
 function send_email($path, $from,  $destination, $data){
     $raw = file_get_contents($path);
     
@@ -17,9 +20,6 @@ function send_email($path, $from,  $destination, $data){
     $headers[] = "X-Priority: 1 (Highest)";
     $headers[] = "X-MSMail-Priority: High";
     $headers[] = "Importance: High";
-
-    //var_dump(get_defined_vars());
     
     wp_mail($destination, $subject, $content, $headers );
 }
-
