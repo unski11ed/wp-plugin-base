@@ -1,2 +1,2 @@
 ./dist
-.vagrant
+node_modules
