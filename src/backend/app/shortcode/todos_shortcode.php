@@ -1,6 +1,6 @@
 <?php
 
-class TodosShortcode extends Shortcode{
+class TodosShortcode extends __PluginNamespace__\Base\Shortcode{
     public static function get_wp_name() {
         return "todos";
     }

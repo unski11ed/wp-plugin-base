@@ -1,9 +1,6 @@
 <?php
 
-namespace __PluginNamespace__\Base;
-namespace __PluginNamespace__\Model;
-
-class TodosRepository extends Model {
+class TodosRepository extends __PluginNamespace__\Base\Model {
     private $_db;
 
     public static function get_table_name() {

@@ -1,9 +1,6 @@
 <?php
 
-namespace __PluginNamespace__\Base;
-namespace __PLuginNamespace__\Model;
-
-class Todos extends Controller {
+class Todos extends __PluginNamespace__\Base\Controller {
     private $_todos;
 
     public function __construct($url_data, $model_data){

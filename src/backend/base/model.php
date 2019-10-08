@@ -1,6 +1,6 @@
 <?php
 
-namespace __PluginBase__\Base;
+namespace __PluginNamespace__\Base;
 
 abstract class Model {
     public static abstract function get_table_name();

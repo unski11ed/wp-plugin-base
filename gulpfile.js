@@ -23,11 +23,9 @@ var NODE_MODULES_DIR = path.resolve(__dirname, 'node_modules');
 
 // BACKEND =====================================
 gulp.task('backend:clean', function() {
-    /* WTF IS THIS!!!! (╯ ͠° ͟ʖ ͡°)╯┻━┻
     return del([
-        PLUGIN_SRC_DIR, 'backend', '**', '*.php',
+        path.resolve(PLUGIN_DEST_DIR, 'backend', '**', '*.php'),
     ]);
-    */
 });
 
 gulp.task('backend:code', function() {
@@ -63,9 +61,12 @@ gulp.task('backend:executable', function() {
         );
 });
 
-gulp.task('backend', gulp.parallel([
-    'backend:code',
-    'backend:executable'
+gulp.task('backend', gulp.series([
+    'backend:clean',
+    gulp.parallel([
+        'backend:code',
+        'backend:executable'
+    ])
 ]));
 
 
@@ -148,25 +149,24 @@ gulp.task('frontend', gulp.parallel([
 
 // UTILITIES ====================================
 gulp.task('utility:permissions-data', function(cb) {
-    exec('sudo chown -R www-data:www-data ./dist/wp-content/plugins', function(err, stdout, stderr) {
-        console.log(stdout);
-        console.log(stderr);
+    exec('chown -R www-data:www-data ./dist', function(err, stdout, stderr) {
         cb(err);
     });
 });
 
 gulp.task('utility:permissions-user', function(cb) {
-    exec('sudo chown -R 1000:1000 ./dist/wp-content/plugins', function(err, stdout, stderr) {
-        console.log(stdout);
-        console.log(stderr);
+    exec('chown -R 1000:1000 ./dist', function(err, stdout, stderr) {
         cb(err);
     });
 });
 
 // BUILD ========================================
-gulp.task('build', gulp.parallel([
-    'backend',
-    'frontend'
+gulp.task('build', gulp.series([
+    gulp.parallel([
+        'backend',
+        'frontend',
+    ]),
+    'utility:permissions-data'
 ]));
 
 // WATCHER ======================================
@@ -174,28 +174,28 @@ gulp.task('watch', function() {
     // Frontend
     gulp.watch(
         [path.resolve(PLUGIN_SRC_DIR, 'frontend', 'js', '**', '*.js')],
-        'frontend:js'
+        gulp.series('frontend:js', 'utility:permissions-data')
     );
     gulp.watch(
         [path.resolve(PLUGIN_SRC_DIR, 'frontend', 'scss', '**', '*.scss')],
-        'frontend:scss'
+        gulp.series('frontend:scss', 'utility:permissions-data')
     );
     gulp.watch(
         [path.resolve(PLUGIN_SRC_DIR, 'frontend', 'img', '**', '*.*')],
-        'frontend:img'
+        gulp.series('frontend:img', 'utility:permissions-data')
     );
     gulp.watch(
         [path.resolve(PLUGIN_SRC_DIR, 'frontend', 'templates', '**', '*.html')],
-        'frontend:templates'
+        gulp.series('frontend:templates', 'utility:permissions-data')
     );
     // Backend
     gulp.watch(
         [path.resolve(PLUGIN_SRC_DIR, 'backend', '**', '*.php')],
-        'backend:code'
+        gulp.series('backend:clean', 'backend:code', 'utility:permissions-data')
     );
     gulp.watch(
         [path.resolve(PLUGIN_SRC_DIR, 'wp-plugin.php')],
-        'backend:executable'
+        gulp.series('backend:executable', 'utility:permissions-data')
     );
 });
 
@@ -204,14 +204,14 @@ gulp.task('utility:plugin-dir', function(cb) {
 });
 
 // DEVELOPMENT ==================================
-gulp.task('vagrant:wordpress', function(cb) {
-    exec('vagrant up', function (err, stdout, stderr) {
+gulp.task('docker:wordpress', function(cb) {
+    exec('docker-compose up', function (err, stdout, stderr) {
         cb(err);
     });
 });
 
 gulp.task('dev', gulp.parallel([
-    gulp.task('vagrant:wordpress'),
+    gulp.task('docker:wordpress'),
     gulp.series([
         gulp.task('utility:plugin-dir'),
         gulp.task('build'),

@@ -1,6 +1,6 @@
 <?php
 
-namespace __PluginNamespace\Base;
+namespace __PluginNamespace__\Base;
 
 abstract class Controller extends Executable {
     protected function setup_paginator($count, $items_per_page, $url_base) {

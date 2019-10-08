@@ -1,13 +1,13 @@
 <?php
 
-namespace __PluginNamespace__;
-namespace __PluginNamespace__\Base;
+namespace __PluginNamespace__\Service;
 
-includePhpFiles(plugin_dir_path(__FILE__)."/../base");
-includePhpFiles(plugin_dir_path(__FILE__)."/model");
-includePhpFiles(plugin_dir_path(__FILE__)."/utilities");
-includePhpFiles(plugin_dir_path(__FILE__)."/controller");
-includePhpFiles(plugin_dir_path(__FILE__)."/shortcode");
+use __PluginNamespace__\Base as base;
+
+base\include_php_files(plugin_dir_path(__FILE__)."/model");
+base\include_php_files(plugin_dir_path(__FILE__)."/utilities");
+base\include_php_files(plugin_dir_path(__FILE__)."/controller");
+base\include_php_files(plugin_dir_path(__FILE__)."/shortcode");
 
 class PluginMVCMenuPages { 
     private $slug_prefix;
@@ -79,7 +79,7 @@ class PluginMVCService {
     }
 
     public static function register_routes() {
-        $controllers = get_implementing_classes("Controller");
+        $controllers = base\get_implementing_classes("Controller");
 
         $register_action = function($controller, $action) {
             $action_name = strtolower($controller) . "-" .  strtolower($action);
@@ -123,7 +123,7 @@ class PluginMVCService {
     }
 
     function register_shortcodes(){
-        $shortcodes = get_implementing_classes("Shortcode");
+        $shortcodes = base\get_implementing_classes("Shortcode");
 
         foreach ($shortcodes as $shortcode_name) {
             add_shortcode($shortcode_name, function($attributes) use ($shortcode_name){
