@@ -93,15 +93,4 @@ PHP
  end
  end
 
- # instalacja zależności WordPressa z pliku wp.sh
- config.trigger.after :up do
- if File.exist?( File.dirname(__FILE__) + '/wp.sh' )
- info 'Installing WP dependencies...'
- run_remote "bash /var/www/wp.sh"
- end
- end
-
- # uruchomienie MailCatchera pozwalajcego na odbiór maili
- config.vm.provision "shell", inline: "/home/vagrant/.rbenv/shims/mailcatcher --http-ip=0.0.0.0", run: "always"
-
 end
