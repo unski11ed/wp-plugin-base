@@ -28,6 +28,7 @@
     "@babel/preset-env": "^7.6.2",
     "@yodasws/gulp-pattern-replace": "^1.1.1",
     "del": "^5.1.0",
+    "exit-hook": "^2.2.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-better-rollup": "^4.0.1",

@@ -19,7 +19,7 @@ class PluginMVCMenuPages {
     }
     
     public function insert_page($page_name, $controller, $action, $menu_name = "", $params = "") {
-        $slug = $this->slugPrefix . remove_accents($page_name);
+        $slug = $this->slug_prefix . remove_accents($page_name);
         
         add_menu_page(
                 $page_name, 
@@ -79,7 +79,7 @@ class PluginMVCService {
     }
 
     public static function register_routes() {
-        $controllers = base\get_implementing_classes("Controller");
+        $controllers = base\get_implementing_classes("__PluginNamespace__\Base\Controller");
 
         $register_action = function($controller, $action) {
             $action_name = strtolower($controller) . "-" .  strtolower($action);
@@ -122,14 +122,24 @@ class PluginMVCService {
         }
     }
 
-    function register_shortcodes(){
-        $shortcodes = base\get_implementing_classes("Shortcode");
-
+    public static function register_shortcodes(){
+        $shortcodes = base\get_implementing_classes("__PluginNamespace__\Base\Shortcode");
+        
         foreach ($shortcodes as $shortcode_name) {
-            add_shortcode($shortcode_name, function($attributes) use ($shortcode_name){
+            $wp_name = $shortcode_name::get_wp_name();
+            
+            add_shortcode($wp_name, function($attributes) use ($shortcode_name){
                 $shortcode = new $shortcode_name($_GET, $attributes);
                 return $shortcode->execute();
             });
+        }
+    }
+
+    public static function initialize_models() {
+        $models = base\get_implementing_classes("__PluginNamespace__\Base\Model");
+
+        foreach ($models as $model_name) {
+            $model_name::initialize();
         }
     }
 }

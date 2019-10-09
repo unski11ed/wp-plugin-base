@@ -22,7 +22,9 @@ require_once plugin_dir_path(__FILE__).'backend/app/service.php';
 
 Service\PluginMVCService::register_routes();
 Service\PluginMVCService::register_shortcodes();
-
+register_activation_hook(__FILE__, function() {
+    Service\PluginMVCService::initialize_models();
+});
 //===============================Load scripts===================================
 add_action( 'wp_enqueue_scripts', function(){
     wp_enqueue_script("user-script", plugin_dir_url(__FILE__) . "/frontend/js/main.min.js", array(), false, false);
@@ -35,7 +37,7 @@ add_action( 'admin_enqueue_scripts', function(){
 
 //===============================Setup admin menu===============================
 add_action('admin_menu', function(){
-    $menuManager = new PluginMVCMenuPages("Todos");
+    $menuManager = new Service\PluginMVCMenuPages("Todos");
 
     $menuParent = $menuManager->insert_page("Todos", "Todos", "manage", "List");
 });

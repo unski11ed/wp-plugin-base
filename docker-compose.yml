@@ -2,6 +2,7 @@ version: '2'
 
 services:
   mysql:
+    container_name: wp-plugin-base--mysql
     image: mysql:5.7
     restart: always
     ports:
@@ -13,6 +14,7 @@ services:
       MYSQL_PASSWORD: wordpress
 
   wordpress:
+    container_name: wp-plugin-base--wordpress
     depends_on:
       - mysql
     image: wordpress
@@ -25,3 +27,4 @@ services:
       WORDPRESS_DB_HOST: mysql:3306
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DEBUG: 1

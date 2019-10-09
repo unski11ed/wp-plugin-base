@@ -1,8 +1,8 @@
 <?php
 
-namespace __PluginNamespace\Base;
+namespace __PluginNamespace__\Base;
 
-function get_implementing_classes($interfaceName) {
+function get_implementing_classes($interface_name) {
     return array_filter(
         get_declared_classes(),
         function($class_name) use ($interface_name) {

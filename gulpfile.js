@@ -12,6 +12,8 @@ var resolve = require('rollup-plugin-node-resolve');
 var commonjs = require('rollup-plugin-commonjs');
 var exec = require('child_process').exec;
 var del = require('del');
+var exitHook = require('exit-hook');
+var util = require('util');
 
 var appConfig = require('./plugin-configuration.json');
 
@@ -19,7 +21,6 @@ var appConfig = require('./plugin-configuration.json');
 var PLUGIN_SRC_DIR = path.resolve(__dirname, 'src');
 var PLUGIN_DEST_DIR = path.resolve(__dirname, 'dist', appConfig.executableName);
 var NODE_MODULES_DIR = path.resolve(__dirname, 'node_modules');
-
 
 // BACKEND =====================================
 gulp.task('backend:clean', function() {
@@ -89,6 +90,11 @@ gulp.task('frontend:js', function() {
                 format: 'umd'
             }
         ))
+    .pipe(replace(/__PluginNamespace__/g, appConfig.namespace))
+    .pipe(replace(/__PluginName__/g, appConfig.name))
+    .pipe(replace(/__PluginDescription__/g, appConfig.description))
+    .pipe(replace(/__PluginVersion__/g, appConfig.version))
+    .pipe(replace(/__PluginAuthor__/g, appConfig.author))
     .pipe(gulp.dest(
         path.resolve(PLUGIN_DEST_DIR, 'frontend', 'js')
     ))
@@ -149,24 +155,21 @@ gulp.task('frontend', gulp.parallel([
 
 // UTILITIES ====================================
 gulp.task('utility:permissions-data', function(cb) {
-    exec('chown -R www-data:www-data ./dist', function(err, stdout, stderr) {
+    exec('sudo chown -R www-data:www-data ./dist', function(err, stdout, stderr) {
         cb(err);
     });
 });
 
 gulp.task('utility:permissions-user', function(cb) {
-    exec('chown -R 1000:1000 ./dist', function(err, stdout, stderr) {
+    exec('sudo chown -R 1000:1000 ./dist', function(err, stdout, stderr) {
         cb(err);
     });
 });
 
 // BUILD ========================================
-gulp.task('build', gulp.series([
-    gulp.parallel([
-        'backend',
-        'frontend',
-    ]),
-    'utility:permissions-data'
+gulp.task('build', gulp.parallel([
+    'backend',
+    'frontend',
 ]));
 
 // WATCHER ======================================
@@ -215,6 +218,12 @@ gulp.task('dev', gulp.parallel([
     gulp.series([
         gulp.task('utility:plugin-dir'),
         gulp.task('build'),
+        gulp.task('utility:permissions-data'),
         gulp.task('watch')
     ])
 ]));
+
+// CLEANUP ======================================
+exitHook(function() {
+    exec('./cleanup.sh');
+});

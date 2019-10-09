@@ -10,7 +10,7 @@ class TodosShortcode extends __PluginNamespace__\Base\Shortcode{
     public function __construct($url_data, $model_data) {
         parent::__construct($url_data, $model_data);   
 		
-		$this->list_name = $modelData["list_name"];
+		$this->list_name = $model_data["list_name"];
     }
     
     public function execute() {

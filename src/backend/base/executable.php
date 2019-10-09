@@ -17,11 +17,10 @@ abstract class Executable {
         $this->SERVER = $_SERVER;
         
         $this->url_prams = $url_data;
-        $this->view_model = $view_model;
+        $this->view_model = $model_data;
         
         $this->setup_paths();
     }
-    
     
     private function setup_paths() {
         $this->path['main'] = plugin_dir_path(__FILE__) . "..";
@@ -38,8 +37,8 @@ abstract class Executable {
 
         $json = json_encode(
             array_merge(
-                $scriptData,
-                $this->ScriptData
+                $script_data,
+                $this->script_data
             )
         );
         
