@@ -38,7 +38,7 @@ class Todos extends __PluginNamespace__\Base\Controller {
         if ($result) {
             json_encode(
                 array(
-                    'status' => 'success'
+                    'status' => 'ok'
                 )
             );
         }
@@ -58,7 +58,7 @@ class Todos extends __PluginNamespace__\Base\Controller {
 
         return json_encode(
             array(
-                'status' => $result ? 'success' : 'error'
+                'status' => $result ? 'ok' : 'error'
             )
         );
     }
@@ -70,7 +70,7 @@ class Todos extends __PluginNamespace__\Base\Controller {
 
         return json_encode(
             array(
-                'status' => $result ? 'success' : 'error'
+                'status' => $result ? 'ok' : 'error'
             )
         );
     }

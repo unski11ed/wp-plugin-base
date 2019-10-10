@@ -1,7 +1,7 @@
 import config from './../config';
 
 function configurationService() {
-    return config;
+    return Object.assign({}, config, window[config.pluginNamespace]);
 }
 
 export { configurationService };

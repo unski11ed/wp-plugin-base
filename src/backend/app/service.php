@@ -92,7 +92,7 @@ class PluginMVCService {
             $action_name = strtolower($controller) . "-" .  strtolower($action);
 
             $exec_function = function() use ($controller, $action, $access) {
-                PluginMVCService::ExecuteAjax($controller, $action, $access);
+                PluginMVCService::execute_ajax($controller, $action, $access);
             };
 
             add_action("wp_ajax_$action_name", $exec_function);

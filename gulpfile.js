@@ -14,6 +14,7 @@ var exec = require('child_process').exec;
 var del = require('del');
 var exitHook = require('exit-hook');
 var util = require('util');
+var sourcemaps = require('gulp-sourcemaps');
 
 var appConfig = require('./plugin-configuration.json');
 
@@ -76,15 +77,16 @@ gulp.task('frontend:js', function() {
     return gulp.src([
         path.resolve(PLUGIN_SRC_DIR, 'frontend', 'js', 'main.js')
     ])
+    .pipe(sourcemaps.init())
     .pipe(
         rollup(
             {
                 plugins: [
-                    babel({
-                        presets: ['@babel/preset-env']
-                    }),
                     resolve(),
-                    commonjs()
+                    commonjs(),
+                    babel({
+                        presets: ['@babel/preset-env'],
+                    }),
                 ]
             }, {
                 format: 'umd'
@@ -102,6 +104,7 @@ gulp.task('frontend:js', function() {
     .pipe(rename({
         extname: '.min.js'
     }))
+    .pipe(sourcemaps.write(''))
     .pipe(gulp.dest(
         path.resolve(PLUGIN_DEST_DIR, 'frontend', 'js')
     ));

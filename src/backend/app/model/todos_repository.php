@@ -12,14 +12,16 @@ class TodosRepository extends __PluginNamespace__\Base\Model {
     public static function initialize() {
         global $wpdb;
 
-        $result = $wpdb->prepare("
-            CREATE TABLE %s (
-                id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-                content MEDIUMTEXT NOT NULL,
-                complete BIT DEFAULT 0,
-                created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )   
-        ", self::get_table_name());
+        $table_name = self::get_table_name();
+
+        $query = "CREATE TABLE IF NOT EXISTS $table_name (
+            id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            content MEDIUMTEXT NOT NULL,
+            complete BIT DEFAULT 0,
+            created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );";
+
+        $result = $wpdb->query($query);
 
         if (!$result) {
             throw new Exception("__PluginName__: Filed to initialize database. Reason:" . $wpdb->print_error());
@@ -43,10 +45,9 @@ class TodosRepository extends __PluginNamespace__\Base\Model {
     }
 
     public function get_all() {
-        $query = $this->_db->prepare(
-            "SELECT * FROM %s LIMIT 50",
-            self::get_table_name()
-        );
+        $table_name = self::get_table_name();
+
+        $query = "SELECT * FROM $table_name LIMIT 50;";
         
         return $this->_db->get_results($query, ARRAY_A);
     }
