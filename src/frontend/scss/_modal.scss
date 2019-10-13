@@ -1,0 +1,27 @@
+#todo-app-container {
+    .modal {
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1000;
+        background: rgba(black, 0.7);
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:not(.modal--visible) {
+            display: none;
+        }
+
+        &__content {
+            max-width: 500px;
+            width: 100vw;
+            background: white;
+            border-radius: 5px;
+            padding: 1rem;
+        }
+    }
+}

@@ -56,7 +56,7 @@ class TodosRepository extends __PluginNamespace__\Base\Model {
         $result = $this->_db->update(
             self::get_table_name(),
             array(
-                'is_complete' => intval($is_complete)
+                'complete' => intval($is_complete)
             ),
             array(
                 'id' => intval($id)

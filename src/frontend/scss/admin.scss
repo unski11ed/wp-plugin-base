@@ -1,0 +1,10 @@
+.admin-todos {
+    margin: 0 auto;
+    max-width: 300px;
+}
+
+.admin-todo {
+    &--complete {
+        text-decoration: line-through;
+    }
+}

@@ -1,4 +1,4 @@
-function todoController($scope, todosService) {
+function todoController($scope, todosService, templateUrlProvider) {
     // Actions ==================================
     function setStatus(status, message) {
         $scope.remoteStatus.status = status;
@@ -14,6 +14,7 @@ function todoController($scope, todosService) {
                     fetchTodos();
                 }
             });
+        $scope.modalVisible = false;
     }
 
     function fetchTodos() {
@@ -23,8 +24,13 @@ function todoController($scope, todosService) {
             });
     }
 
-    function toggleCompleteTodo(id, isComplete) {
-        todosService.toggleComplete(id, isComplete, setStatus);
+    function toggleCompleteTodo(id) {
+        const todo = $scope.todos.list.find(
+            function(todo) { return todo.id === id });
+
+        if (todo) {
+            todosService.toggleComplete(id, todo.isComplete, setStatus);
+        }
     }
 
     function deleteTodo(id) {
@@ -43,21 +49,29 @@ function todoController($scope, todosService) {
     $scope.newTodo = {
         content: ''
     };
-    $scope.remoteStatus: {
-        status: 'ok'
-        message: null;
+    $scope.remoteStatus = {
+        status: 'ok',
+        message: null
     };
     $scope.actions = {
         fetchTodos: fetchTodos,
         addTodo: addTodo,
         deleteTodo: deleteTodo,
-        toggleCompleteTodo
+        toggleCompleteTodo: toggleCompleteTodo,
+        toggleModal: function() {
+            $scope.newTodo.content = '';
+            $scope.modalVisible = !$scope.modalVisible;
+        }
     }
+    $scope.modalVisible = false;
 
     // Bootstrap ================================
     fetchTodos();
 }
 
-todoController.$inject = ['$scope', 'todo.todosService'];
+todoController.$inject = [
+    '$scope',
+    'todo.todosService',
+];
 
 export { todoController };

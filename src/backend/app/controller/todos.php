@@ -35,8 +35,8 @@ class Todos extends __PluginNamespace__\Base\Controller {
         
         $result = $this->_todos->create($content);
 
-        if ($result) {
-            json_encode(
+        if ($result !== FALSE) {
+            return json_encode(
                 array(
                     'status' => 'ok'
                 )

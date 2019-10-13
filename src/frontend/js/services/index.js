@@ -10,6 +10,6 @@ angular.module(moduleName, [])
     // TODO: Attach services here
     .service('todo.wpPluginCallService', wpPluginCallService)
     .service('todo.configurationService', configurationService)
-    .service('todo.todosService', todosService);
+    .service('todo.todosService', todosService)
 
 export default moduleName;

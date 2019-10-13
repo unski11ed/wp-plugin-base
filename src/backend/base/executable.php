@@ -33,6 +33,7 @@ abstract class Executable {
     private function set_script_data(){
         $script_data = array(
             'ajaxUrl' => admin_url('admin-ajax.php'),
+            'baseUrl' => $this->url['main']
         );
 
         $json = json_encode(

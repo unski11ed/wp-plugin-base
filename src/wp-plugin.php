@@ -27,12 +27,11 @@ register_activation_hook(__FILE__, function() {
 });
 //===============================Load scripts===================================
 add_action( 'wp_enqueue_scripts', function(){
-    wp_enqueue_script("user-script", plugin_dir_url(__FILE__) . "/frontend/js/main.min.js", array(), false, false);
+    wp_enqueue_script("user-script", plugin_dir_url(__FILE__) . "/frontend/js/main.js", array(), false, false);
     wp_enqueue_style('user-style', plugin_dir_url(__FILE__) . "/frontend/css/main.min.css");
 });
 add_action( 'admin_enqueue_scripts', function(){
-    wp_enqueue_script("user-script", plugin_dir_url(__FILE__) . "/frontend/js/main.min.js", array(), false, false);
-    wp_enqueue_style('user-style', plugin_dir_url(__FILE__) . "/frontend/css/main.min.css");
+    wp_enqueue_style('user-style', plugin_dir_url(__FILE__) . "/frontend/css/admin.min.css");
 });
 
 //===============================Setup admin menu===============================

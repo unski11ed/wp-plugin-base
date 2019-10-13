@@ -112,7 +112,8 @@ gulp.task('frontend:js', function() {
 
 gulp.task('frontend:scss', function() {
     return gulp.src([
-            path.resolve(PLUGIN_SRC_DIR, 'frontend', 'scss', 'main.scss')
+            path.resolve(PLUGIN_SRC_DIR, 'frontend', 'scss', 'main.scss'),
+            path.resolve(PLUGIN_SRC_DIR, 'frontend', 'scss', 'admin.scss'),
         ])
         .pipe(sass({
             includePaths: [
