@@ -11,7 +11,7 @@ To start the development environment run `sudo npm run dev`, navigate to `localh
 To build the plugin run `npm run build`
 
 ## Before you start...
-Initially you should fill the `plugin-configuration.json` file which should contain the plugin name, author name, version etc. That data is needed mainly for Wordpress which will display in the plugin install/management section. These are the fields you will find inside:
+Initially you should fill the `plugin-configuration.json` file which should contain the plugin name, author name, version etc. That data is needed mainly for Wordpress which will display it in the plugin install/management section. These are the fields you will find inside the file:
 
 - `namespace` - the namespace that will be used for the PHP code. In the code it is represented by a \_\_PluginNamespace\_\_ tag. Use this namespace as a base for all of your code.
 - `name` - name of the plugin which will be visible within Wordpress plugin management
@@ -91,6 +91,7 @@ In this file you should define methods that will execute operations on the datab
 There should also be two static methods defined here:
 
 `get_table_name` - should return the SQL table name (with WP prefix) on which the model will be operating.
+
 `initialize` - this method will be called when the pluign is being activated by Wordpress. You can use it to create the table structure if needed.
 
 ### Shortcodes
